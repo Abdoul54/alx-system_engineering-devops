@@ -1,28 +1,4 @@
 #!/usr/bin/env bash
 # Displays a list of currently running processes
 
-PROCESSES=$(ps axo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,command)
-
-echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
-
-echo "$PROCESSES" | while read -r line; do
-    # Skip the column headers in the original output
-    if [[ "$line" == "USER"* ]]; then
-        continue
-    fi
-
-    # Format the process details and print them
-    USER=$(echo "$line" | awk '{print $1}')
-    PID=$(echo "$line" | awk '{print $2}')
-    CPU=$(echo "$line" | awk '{print $3}')
-    MEM=$(echo "$line" | awk '{print $4}')
-    VSZ=$(echo "$line" | awk '{print $5}')
-    RSS=$(echo "$line" | awk '{print $6}')
-    TTY=$(echo "$line" | awk '{print $7}')
-    STAT=$(echo "$line" | awk '{print $8}')
-    START=$(echo "$line" | awk '{print $9}')
-    TIME=$(echo "$line" | awk '{print $10}')
-    COMMAND=$(echo "$line" | cut -d' ' -f11-)
-
-    printf "%-10s %5s %4s %4s %6s %5s %-6s %-4s %-6s %s\n" "$USER" "$PID" "$CPU" "$MEM" "$VSZ" "$RSS" "$TTY" "$STAT" "$START" "$TIME $COMMAND"
-done
+ps axo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm | head -n 50
